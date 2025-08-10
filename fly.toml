@@ -1,4 +1,5 @@
 # fly.toml (mira-python-blip)
+from flask import Flask, request, jsonify
 app = "mira-python-blip"   # <= cambia por el nombre que elijas en Fly
 primary_region = "iad"     # o la que te sugiera Fly
 
@@ -27,3 +28,7 @@ primary_region = "iad"     # o la que te sugiera Fly
   path = "/healthz"
   protocol = "http"
   tls_skip_verify = false
+
+@app.get("/healthz")
+def healthz():
+    return jsonify({"ok": True}), 200
