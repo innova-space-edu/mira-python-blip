@@ -1,0 +1,29 @@
+# fly.toml (mira-python-blip)
+app = "mira-python-blip"   # <= cambia por el nombre que elijas en Fly
+primary_region = "iad"     # o la que te sugiera Fly
+
+[build]
+  dockerfile = "Dockerfile"
+
+[http_service]
+  internal_port = 5002
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
+
+[[services.tcp_checks]]
+  interval = "15s"
+  timeout = "2s"
+  grace_period = "10s"
+  restart_limit = 0
+
+[[services.http_checks]]
+  interval = "15s"
+  timeout = "5s"
+  grace_period = "10s"
+  method = "get"
+  path = "/healthz"
+  protocol = "http"
+  tls_skip_verify = false
